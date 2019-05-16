@@ -1,13 +1,13 @@
 <ul class="list-group">
   <li *ngFor="let task of tasks" class="list-group-item">
     <div class="task-checkbox">
-      <input (change)="onTaskChange($event,task)"
-             [checked]="task.completed"
+      <input (change)="onTaskChange(task)"
              class="list-child"
+             [(ngModel)]="task.completed"
              type="checkbox">
-      <span ngClass="{{task.completed ? 'name completed' : 'name'}}">{{ task.name }}</span>
-      <span class="label {{ getDueDateLabel(task) }} pull-right"> {{ task.dueDate }}</span>
+      <span ngClass="{{task.completed ? 'name completed' : 'name'}}">&nbsp;{{task.name}}</span>
+      <span class="label pull-right"
+            ngClass="{{ task.completed ? 'label-success' : 'label-primary' }}">{{task.dueDate}}</span>
     </div>
   </li>
-
 </ul>

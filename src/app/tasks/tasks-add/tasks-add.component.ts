@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Task} from '../task.model';
 import {TaskService} from '../task.service';
 
 @Component({
@@ -7,41 +8,25 @@ import {TaskService} from '../task.service';
   styleUrls: ['./tasks-add.component.css']
 })
 export class TasksAddComponent implements OnInit {
-
-  addTaskValue: string = null;
+  @Input() task: Task = {
+    id: 0,
+    name: '',
+    dueDate: '',
+    completed: false
+  };
 
   constructor(private taskService: TaskService) {
   }
 
   ngOnInit() {
-
   }
 
-  onTaskAdd(event) {
-    // let task: Task = new Task(event.target.value,false, this.getTodayAsString());
-    // this.taskService.addTask(task)
-    //   .subscribe(
-    //     (newTask: Task) => {
-    //       // clear the input
-    //       this.addTaskValue = ' ';
-    //       this.taskService.onTaskAdded.emit(newTask);
-    //     }
-    //   )
-  }
-
-  getTodayAsString() {
-    const today = new Date();
-    let dd: any = today.getDate();
-    let mm: any = today.getMonth() + 1;
-    const yyyy = today.getFullYear();
-
-    if (dd < 10) {
-      dd = '0' + dd;
-    }
-    if (mm < 10) {
-      mm = '0' + mm;
-    }
-
-    return mm + '/' + dd + '/' + yyyy;
+  addTask(task) {
+    this.taskService.createTask(task)
+      .subscribe(
+        (newTask: Task) => {
+          this.taskService.onTaskAdded.emit(newTask);
+        }
+      );
   }
 }
